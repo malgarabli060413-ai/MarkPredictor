@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculate Grade Potential</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">MarkPredictor</div>
+            <div class="navbar">
+                <a href="index.html" class="active">Home</a>
+                <a href="grade-potential.html">Predict Marks</a>
+                <a href="score-summary.html">Exam Scores</a>
+                <a href="tips-feedback.html">Tips</a>
+            </div>
+            <a href="grade-potential.html" class="btn btn-primary">Predict Now</a>
+        </div>
+    </header>
+
+    <main class="calculator">
+        <div class="container">
+            <h1>Calculate Your Grade Potential</h1>
+            <p>Input your academic and lifestyle factors to understand how they influence your potential average exam
+                scores.</p>
+
+            <form class="form-grid">
+                <div class="form-column">
+                    <div class="form-object">
+                        <h3>Your Profile</h3>
+                        <label>Gender
+                            <select id="gender">
+                                <option>Select your gender</option>
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </label>
+                    </div>
+
+
+                    <label>Parent's Highest Education
+                        <select id="parentEdu">
+                            <option>Select education</option>
+                            <option>High-School Diploma</option>
+                            <option>Bachelor's Degree</option>
+                            <option> Masters 
+                            </option>
+                            <option>Doctorate</option>
+                        </select>
+                    </label>
+
+                    <h3>Wellness & Habits</h3>
+                    <label>Hours on Social Media
+                        <input id="socialMediaHours" type="text" placeholder="3 hours/day">
+                    </label>
+                    <label>Sleep Hours
+                        <input id="sleepHours" type="text" placeholder="7 hours/night">
+                    </label>
+                </div>
+
+                <div class="form-column">
+                    <h3>Study & Engagement</h3>
+                    <label>Hours of Studying
+                        <input id="studyHours" type="text" placeholder="20 hours/week">
+                    </label>
+                    <label>Attendance
+                        <input id="attendance" type="text" placeholder="90%">
+                    </label>
+
+                    <h3>Mental Well-being</h3>
+                    <label>Mental State
+                        <select id="mentalState">
+                            <option>Select mental state</option>
+                            <option>Stupid</option>
+                            <option>Normal</option>
+                            <option>Einstein</option>
+                        </select>
+                    </label>
+                </div>
+
+                <button type="button" id="calcBtn" class="btn btn-primary">
+                    Calculate Your Potential
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>© <span id="year"></span> GradePilot</p>
+    </footer>
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>
