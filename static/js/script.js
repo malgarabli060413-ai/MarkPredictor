@@ -52,18 +52,76 @@ function calculateGradePotential(data) {
 }
 
 // === BUTTON EVENT LISTENER ===
-document.getElementById("calcBtn").addEventListener("click", () => {
+const calcBtn = document.getElementById("calcBtn");
+if (calcBtn) {
+  calcBtn.addEventListener("click", async () => {
+  // Get form data - all fields that match the model
   const data = {
+    age: document.getElementById("age").value,
+    gender: document.getElementById("gender").value,
     studyHours: document.getElementById("studyHours").value,
+    socialMediaHours: document.getElementById("socialMediaHours").value,
+    netflixHours: document.getElementById("netflixHours").value,
+    partTimeJob: document.getElementById("partTimeJob").value,
     attendance: document.getElementById("attendance").value,
     sleepHours: document.getElementById("sleepHours").value,
-    socialMediaHours: document.getElementById("socialMediaHours").value,
-    mentalState: document.getElementById("mentalState").value,
-    parentEdu: document.getElementById("parentEdu").value
+    dietQuality: document.getElementById("dietQuality").value,
+    exerciseFrequency: document.getElementById("exerciseFrequency").value,
+    parentEdu: document.getElementById("parentEdu").value,
+    internetQuality: document.getElementById("internetQuality").value,
+    mentalHealthRating: document.getElementById("mentalHealthRating").value,
+    extracurricular: document.getElementById("extracurricular").value
   };
 
-  const score = calculateGradePotential(data);
+  // Validate required inputs
+  const requiredFields = ['age', 'gender', 'studyHours', 'attendance', 'sleepHours', 
+                         'socialMediaHours', 'netflixHours', 'exerciseFrequency', 
+                         'mentalHealthRating'];
+  
+  for (let field of requiredFields) {
+    if (!data[field] || data[field] === '' || 
+        (typeof data[field] === 'string' && data[field].startsWith('Select'))) {
+      alert(`Please fill in all required fields. Missing: ${field}`);
+      return;
+    }
+  }
 
-  window.location.href = `score-summary.html?score=${score}`;
+  try {
+    // Show loading state
+    const btn = document.getElementById("calcBtn");
+    btn.disabled = true;
+    btn.textContent = "Calculating...";
+
+    // Send prediction request to Flask API
+    const response = await fetch('http://localhost:5001/predict', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      // Store the score in sessionStorage for the summary page
+      sessionStorage.setItem('predictedScore', result.predicted_score);
+      sessionStorage.setItem('performanceLevel', result.performance_level);
+      
+      // Redirect to score summary page
+      window.location.href = `score-summary.html?score=${result.predicted_score}`;
+    } else {
+      alert(`Error: ${result.message}`);
+    }
+  } catch (error) {
+    alert("An error occurred while calculating your score. Please try again.");
+    console.error('Error:', error);
+  } finally {
+    // Reset button state
+    const btn = document.getElementById("calcBtn");
+    btn.disabled = false;
+    btn.textContent = "Calculate Your Potential";
+  }
 });
+}
 
